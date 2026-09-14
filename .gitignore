@@ -32,3 +32,16 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Local dependency caches and generated report/build intermediates.
+/vendor/bundle/
+/node_modules/
+/.playwright/
+/coverage/
+/output/
+*.log
+.DS_Store
+Thumbs.db
+
+# Assignment notes stay local and are not submitted as source code.
+*.md

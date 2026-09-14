@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class BooksTest < ApplicationSystemTestCase
   setup do
-    @book = books(:one)
+    @book = Book.create!(title: "Dune")
   end
 
   test "visiting the index" do
@@ -18,7 +18,7 @@ class BooksTest < ApplicationSystemTestCase
     click_on "Create Book"
 
     assert_text "Book was successfully created"
-    click_on "Back"
+    click_on "Books", exact: true
   end
 
   test "should update Book" do
@@ -29,12 +29,13 @@ class BooksTest < ApplicationSystemTestCase
     click_on "Update Book"
 
     assert_text "Book was successfully updated"
-    click_on "Back"
+    click_on "Books", exact: true
   end
 
   test "should destroy Book" do
     visit book_url(@book)
-    click_on "Destroy this book", match: :first
+    click_on "Delete this book", match: :first
+    click_on "Confirm delete"
 
     assert_text "Book was successfully destroyed"
   end

@@ -1,0 +1,54 @@
+
+Randomized with seed 37488
+
+UserBook
+  allows the same book to belong to multiple users
+  removes associations when a book is deleted while retaining users
+  prevents duplicate associations
+  requires an existing user and book
+
+User
+  reaches many books through user books
+  requires a username
+  removes associations when deleted while retaining books
+
+Book CRUD
+  does not change a record on an invalid update
+  rejects invalid prices without writing to the database
+  returns all book attributes through the existing JSON API
+  returns 404 for missing records
+  prepopulates edit fields and uses three publication date dropdowns
+  requires a DELETE request and shows a home-page deletion notice
+  provides all five book pages and a home link
+  updates all attributes and shows a home-page notice
+
+User Books
+  rejects missing foreign records without a server error
+  makes User Books the home page with navigation
+  creates, shows, updates, and deletes an association
+  rerenders invalid and duplicate associations with errors and populated dropdowns
+  uses dropdowns containing available users and books
+
+Book
+  stores an author
+  stores a published date
+  stores a decimal price without losing cents
+  rejects a blank title
+  accepts a title
+
+Books
+  saves a published date from dropdowns and displays it
+  creates a titled book and displays a success notice on the home page
+  saves and displays the price from the form
+  rejects a blank title with an error notice and preserves the database
+  saves and displays the author from the form
+
+Users
+  creates, lists, shows, updates, and deletes a user
+  rejects blank usernames on create and update
+
+Finished in 2.36 seconds (files took 8.6 seconds to load)
+32 examples, 0 failures
+
+Randomized with seed 37488
+

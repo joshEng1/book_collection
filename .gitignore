@@ -42,3 +42,6 @@
 *.log
 .DS_Store
 Thumbs.db
+
+# Assignment notes stay local and are not submitted as source code.
+*.md

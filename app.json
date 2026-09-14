@@ -1,0 +1,16 @@
+{
+  "name": "Book Collection",
+  "description": "Rails book catalog with users and many-to-many book assignments",
+  "stack": "heroku-24",
+  "buildpacks": [{ "url": "heroku/ruby" }],
+  "env": {
+    "SECRET_KEY_BASE": { "generator": "secret" },
+    "RAILS_LOG_TO_STDOUT": { "value": "enabled" },
+    "WEB_CONCURRENCY": { "value": "1" },
+    "RAILS_MAX_THREADS": { "value": "3" }
+  },
+  "formation": {
+    "web": { "quantity": 1, "size": "basic" }
+  },
+  "addons": [{ "plan": "heroku-postgresql:essential-0" }]
+}

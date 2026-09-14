@@ -1,4 +1,3 @@
-<p style="color: green"><%= notice %></p>
 
 <% content_for :title, "Books" %>
 
@@ -9,6 +8,8 @@
     <%= render book %>
     <p>
       <%= link_to "Show this book", book %>
+      <%= link_to "Edit this book", edit_book_path(book) %>
+      <%= link_to "Delete this book", delete_book_path(book) %>
     </p>
   <% end %>
 </div>

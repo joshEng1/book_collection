@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[ show edit update destroy ]
+  before_action :set_book, only: %i[ show edit update delete destroy ]
 
   # GET /books or /books.json
   def index
@@ -19,16 +19,22 @@ class BooksController < ApplicationController
   def edit
   end
 
+  def delete
+  end
+
   # POST /books or /books.json
   def create
     @book = Book.new(book_params)
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to @book, notice: "Book was successfully created." }
+        format.html { redirect_to root_path, notice: "Book was successfully created.", status: :see_other }
         format.json { render :show, status: :created, location: @book }
       else
-        format.html { render :new, status: :unprocessable_content }
+        format.html do
+          flash.now[:alert] = "Book could not be saved."
+          render :new, status: :unprocessable_content
+        end
         format.json { render json: @book.errors, status: :unprocessable_content }
       end
     end
@@ -38,10 +44,13 @@ class BooksController < ApplicationController
   def update
     respond_to do |format|
       if @book.update(book_params)
-        format.html { redirect_to @book, notice: "Book was successfully updated.", status: :see_other }
+        format.html { redirect_to root_path, notice: "Book was successfully updated.", status: :see_other }
         format.json { render :show, status: :ok, location: @book }
       else
-        format.html { render :edit, status: :unprocessable_content }
+        format.html do
+          flash.now[:alert] = "Book could not be saved."
+          render :edit, status: :unprocessable_content
+        end
         format.json { render json: @book.errors, status: :unprocessable_content }
       end
     end
@@ -52,7 +61,7 @@ class BooksController < ApplicationController
     @book.destroy!
 
     respond_to do |format|
-      format.html { redirect_to books_path, notice: "Book was successfully destroyed.", status: :see_other }
+      format.html { redirect_to root_path, notice: "Book was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
   end

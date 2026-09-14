@@ -25,4 +25,14 @@ RSpec.describe Book, type: :model do
     book = Book.create!(title: "Dune", published_date: Date.new(1965, 8, 1))
     expect(book.reload.published_date).to eq(Date.new(1965, 8, 1))
   end
+
+  it "rejects invalid publication date strings" do
+    expect(Book.new(title: "Dune", published_date: "not-a-date")).not_to be_valid
+  end
+
+  it "rejects impossible publication dates from dropdowns" do
+    book = Book.new(title: "Dune", "published_date(1i)" => "2025", "published_date(2i)" => "2", "published_date(3i)" => "31")
+    expect(book).not_to be_valid
+    expect(book.errors[:published_date]).to include("must be a complete, valid date")
+  end
 end

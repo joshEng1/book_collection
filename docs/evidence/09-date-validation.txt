@@ -1,0 +1,34 @@
+
+Randomized with seed 49210
+
+Book CRUD
+  returns 404 for missing records
+  returns all book attributes through the existing JSON API
+  prepopulates edit fields and uses three publication date dropdowns
+  provides all five book pages and a home link
+  does not change a record on an invalid update
+  rejects invalid prices without writing to the database
+  updates all attributes and shows a home-page notice
+  rejects an incomplete publication date with validation errors (FAILED - 1)
+  requires a DELETE request and shows a home-page deletion notice
+
+Failures:
+
+  1) Book CRUD rejects an incomplete publication date with validation errors
+     Failure/Error:
+       expect do
+         post books_path, params: { book: { title: "Incomplete date", "published_date(1i)" => "1965", "published_date(2i)" => "", "published_date(3i)" => "1" } }
+       end.not_to change(Book, :count)
+
+       expected `Book.count` not to have changed, but did change from 1 to 2
+     # ./spec/requests/book_crud_spec.rb:48:in `block (2 levels) in <top (required)>'
+
+Finished in 1.39 seconds (files took 7.92 seconds to load)
+9 examples, 1 failure
+
+Failed examples:
+
+rspec ./spec/requests/book_crud_spec.rb:47 # Book CRUD rejects an incomplete publication date with validation errors
+
+Randomized with seed 49210
+

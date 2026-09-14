@@ -44,6 +44,13 @@ RSpec.describe "Book CRUD", type: :request do
     end
   end
 
+  it "rejects an incomplete publication date with validation errors" do
+    expect do
+      post books_path, params: { book: { title: "Incomplete date", "published_date(1i)" => "1965", "published_date(2i)" => "", "published_date(3i)" => "1" } }
+    end.not_to change(Book, :count)
+    expect(response).to have_http_status(:unprocessable_content)
+  end
+
   it "requires a DELETE request and shows a home-page deletion notice" do
     expect { get delete_book_path(book) }.not_to change(Book, :count)
     expect(response.body).to include("Are you sure", "Confirm delete")

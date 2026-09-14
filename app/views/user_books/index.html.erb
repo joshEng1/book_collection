@@ -1,0 +1,16 @@
+
+
+<% content_for :title, "User Books" %>
+
+<h1>User Books</h1>
+
+<div id="user_books">
+  <% @user_books.each do |user_book| %>
+    <%= render user_book %>
+    <p>
+      <%= link_to "Show this user book", user_book %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New user book", new_user_book_path %>

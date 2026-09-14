@@ -10,4 +10,19 @@ RSpec.describe Book, type: :model do
     expect(book).not_to be_valid
     expect(book.errors[:title]).to include("can't be blank")
   end
+
+  it "stores an author" do
+    book = Book.create!(title: "Dune", author: "Frank Herbert")
+    expect(book.reload.author).to eq("Frank Herbert")
+  end
+
+  it "stores a decimal price without losing cents" do
+    book = Book.create!(title: "Dune", price: "12.99")
+    expect(book.reload.price).to eq(BigDecimal("12.99"))
+  end
+
+  it "stores a published date" do
+    book = Book.create!(title: "Dune", published_date: Date.new(1965, 8, 1))
+    expect(book.reload.published_date).to eq(Date.new(1965, 8, 1))
+  end
 end

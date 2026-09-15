@@ -1,5 +1,0 @@
-<% content_for :title, "Delete book" %>
-<h1>Delete book</h1>
-<p>Are you sure you want to delete <strong><%= @book.title %></strong>?</p>
-<%= button_to "Confirm delete", book_path(@book), method: :delete %>
-<%= link_to "Cancel", books_path %>

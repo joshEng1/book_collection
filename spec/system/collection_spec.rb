@@ -1,8 +1,10 @@
 require "rails_helper"
 
-RSpec.describe "Managing the collection in a browser", type: :system do
+RSpec.describe "Managing the collection in a browser",
+  type: :system do
   before do
-    driven_by :selenium, using: :headless_chrome, screen_size: [ 1200, 900 ] do |options|
+    driven_by :selenium, using: :headless_chrome,
+      screen_size: [ 1200, 900 ] do |options|
       options.add_argument("--no-sandbox")
       options.add_argument("--disable-dev-shm-usage")
     end
@@ -15,10 +17,12 @@ RSpec.describe "Managing the collection in a browser", type: :system do
     page.save_screenshot(directory.join("#{name}.png"))
   end
 
-  it "creates, reads, updates, cancels deletion, and deletes a book" do
+  it "handles book CRUD and canceled deletion" do
     visit books_path
     expect(page).to have_text("Books")
     click_link "New book"
+    expect(page).to have_selector("h1", text: "New book",
+      exact_text: true)
     capture("02-new-book")
     fill_in "Title", with: "Dune"
     fill_in "Author", with: "Frank Herbert"
@@ -30,8 +34,10 @@ RSpec.describe "Managing the collection in a browser", type: :system do
     expect(page).to have_text("Book was successfully created.")
     capture("06-create-flash")
     click_link "Books", exact: true
+    expect(page).to have_selector("h1", text: "Books",
+      exact_text: true)
     capture("01-books-index")
-    click_link "Show this book"
+    within("tr", text: "Dune") { click_link "Show this book" }
     expect(page).to have_text("Frank Herbert")
     expect(page).to have_text("$12.99")
     expect(page).to have_text("1965-08-01")
@@ -43,12 +49,16 @@ RSpec.describe "Managing the collection in a browser", type: :system do
     click_button "Update Book"
     expect(page).to have_text("Book was successfully updated.")
     click_link "Books", exact: true
-    click_link "Delete this book"
+    within("tr", text: "Dune Revised") do
+      click_link "Delete this book"
+    end
     expect(page).to have_text("Dune Revised")
     capture("05-delete-book")
     click_link "Cancel"
     expect(page).to have_text("Dune Revised")
-    click_link "Delete this book"
+    within("tr", text: "Dune Revised") do
+      click_link "Delete this book"
+    end
     click_button "Confirm delete"
     expect(page).to have_text("Book was successfully destroyed.")
     click_link "Books", exact: true
@@ -64,13 +74,16 @@ RSpec.describe "Managing the collection in a browser", type: :system do
   end
 
   it "manages a user and their book association with dropdowns" do
-    book = Book.create!(title: "Dune", author: "Frank Herbert", price: "12.99", published_date: Date.new(1965, 8, 1))
+    book = Book.create!(title: "Dune", author: "Frank Herbert",
+      price: "12.99", published_date: Date.new(1965, 8, 1))
     visit users_path
     click_link "New user"
     fill_in "Username", with: "reader_one"
     click_button "Create User"
     expect(page).to have_text("User was successfully created.")
     click_link "Users", exact: true
+    expect(page).to have_selector("h1", text: "Users",
+      exact_text: true)
     capture("08-users-index")
     click_link "Home"
     click_link "New user book"
@@ -86,6 +99,6 @@ RSpec.describe "Managing the collection in a browser", type: :system do
     click_button "Destroy this user book"
     expect(page).to have_text("User book was successfully destroyed.")
     expect(User.count).to eq(1)
-    expect(Book.count).to eq(1)
+    expect(Book.exists?(book.id)).to be(true)
   end
 end

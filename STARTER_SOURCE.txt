@@ -1,0 +1,21 @@
+Assignment starter: https://github.com/paulinewade/task_manager
+Source commit: 28e837bcd63c0b4830b0ca64edd018c2b93ab7d3
+
+The correct starter was identified after the initial Book Collection
+implementation. It was cloned locally and imported into this existing
+repository, followed by commits that port the completed application.
+Earlier commits describe the initial implementation and are preserved.
+
+Import exclusions: SSH-related files, exported database data, Markdown,
+the upstream encrypted credentials, and obsolete workflow examples.
+This repository retains its own credentials and GitHub Actions workflow.
+
+Conversion: Task/name becomes Book/title with author, decimal price,
+and publication date. Task-specific position/completed/description and
+Category pages are replaced by the Book Collection requirements.
+Users and UserBooks provide the required many-to-many associations.
+The application keeps the TaskManager namespace and modern Rails stack.
+Existing book migrations are retained for deployed database compatibility.
+
+The import commit records the historical Rails 7 starter; it is not a
+deployment target. The completed conversion is verified on the final head.

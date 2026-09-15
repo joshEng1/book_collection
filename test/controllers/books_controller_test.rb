@@ -2,7 +2,7 @@ require "test_helper"
 
 class BooksControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @book = books(:one)
+    @book = Book.create!(title: "Dune")
   end
 
   test "should get index" do
@@ -20,7 +20,7 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
       post books_url, params: { book: { title: @book.title } }
     end
 
-    assert_redirected_to book_url(Book.last)
+    assert_redirected_to root_url
   end
 
   test "should show book" do
@@ -35,7 +35,7 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
 
   test "should update book" do
     patch book_url(@book), params: { book: { title: @book.title } }
-    assert_redirected_to book_url(@book)
+    assert_redirected_to root_url
   end
 
   test "should destroy book" do
@@ -43,6 +43,6 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
       delete book_url(@book)
     end
 
-    assert_redirected_to books_url
+    assert_redirected_to root_url
   end
 end

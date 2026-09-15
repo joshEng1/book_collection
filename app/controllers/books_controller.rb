@@ -1,9 +1,9 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[ show edit update destroy ]
+  before_action :set_book, only: %i[ show edit update delete destroy ]
 
   # GET /books or /books.json
   def index
-    @books = Book.all
+    @books = Book.order(:id)
   end
 
   # GET /books/1 or /books/1.json
@@ -19,17 +19,31 @@ class BooksController < ApplicationController
   def edit
   end
 
+  def delete
+  end
+
   # POST /books or /books.json
   def create
     @book = Book.new(book_params)
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to @book, notice: "Book was successfully created." }
-        format.json { render :show, status: :created, location: @book }
+        format.html do
+          redirect_to root_path,
+            notice: "Book was successfully created.",
+            status: :see_other
+        end
+        format.json do
+          render :show, status: :created, location: @book
+        end
       else
-        format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @book.errors, status: :unprocessable_content }
+        format.html do
+          flash.now[:alert] = "Book could not be saved."
+          render :new, status: :unprocessable_content
+        end
+        format.json do
+          render json: @book.errors, status: :unprocessable_content
+        end
       end
     end
   end
@@ -38,11 +52,20 @@ class BooksController < ApplicationController
   def update
     respond_to do |format|
       if @book.update(book_params)
-        format.html { redirect_to @book, notice: "Book was successfully updated.", status: :see_other }
+        format.html do
+          redirect_to root_path,
+            notice: "Book was successfully updated.",
+            status: :see_other
+        end
         format.json { render :show, status: :ok, location: @book }
       else
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @book.errors, status: :unprocessable_content }
+        format.html do
+          flash.now[:alert] = "Book could not be saved."
+          render :edit, status: :unprocessable_content
+        end
+        format.json do
+          render json: @book.errors, status: :unprocessable_content
+        end
       end
     end
   end
@@ -52,19 +75,25 @@ class BooksController < ApplicationController
     @book.destroy!
 
     respond_to do |format|
-      format.html { redirect_to books_path, notice: "Book was successfully destroyed.", status: :see_other }
+      format.html do
+        redirect_to root_path,
+          notice: "Book was successfully destroyed.",
+          status: :see_other
+      end
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # Use callbacks to share common setup or constraints between
+    # actions.
     def set_book
       @book = Book.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.
     def book_params
-      params.expect(book: [ :title ])
+      params.expect(book: [ :title, :author, :price,
+        :published_date ])
     end
 end

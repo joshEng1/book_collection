@@ -1,6 +1,21 @@
 require "rails_helper"
 
 RSpec.describe Book, type: :model do
+  it "loads five test seed books without duplicating or editing data" do
+    load Rails.root.join("db/seeds.rb")
+    titles = ["Lantern Bay", "The Quiet Observatory", "Paper Moons",
+      "A Map of Rain", "The Last Orchard"]
+    titles.each do |title|
+      expect(Book.find_by(title: "Test: #{title}")).to be_present
+    end
+    book = Book.find_by!(title: "Test: Lantern Bay")
+    book.update!(price: "8.25")
+
+    expect { load Rails.root.join("db/seeds.rb") }
+      .not_to change(Book, :count)
+    expect(book.reload.price).to eq(BigDecimal("8.25"))
+  end
+
   it "accepts a title" do
     expect(Book.new(title: "Dune")).to be_valid
   end

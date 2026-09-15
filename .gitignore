@@ -45,3 +45,7 @@ Thumbs.db
 
 # Assignment notes stay local and are not submitted as source code.
 *.md
+
+# Canvas documentation, test evidence, screenshots, and reports.
+/docs/
+/reports/

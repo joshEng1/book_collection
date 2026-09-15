@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ dev, test, main ]
+    branches: [ dev, run_test, test, main ]
 
 jobs:
   scan_ruby:
@@ -92,6 +92,7 @@ jobs:
           # REDIS_URL: redis://localhost:6379/0
         run: |
           bin/rails db:prepare
+          bin/rails db:seed
           bundle exec rspec
           bin/rails test
           bin/rails test:system

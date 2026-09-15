@@ -37,7 +37,7 @@ RSpec.describe "Managing the collection in a browser",
     expect(page).to have_selector("h1", text: "Books",
       exact_text: true)
     capture("01-books-index")
-    click_link "Show this book"
+    within("tr", text: "Dune") { click_link "Show this book" }
     expect(page).to have_text("Frank Herbert")
     expect(page).to have_text("$12.99")
     expect(page).to have_text("1965-08-01")
@@ -49,12 +49,16 @@ RSpec.describe "Managing the collection in a browser",
     click_button "Update Book"
     expect(page).to have_text("Book was successfully updated.")
     click_link "Books", exact: true
-    click_link "Delete this book"
+    within("tr", text: "Dune Revised") do
+      click_link "Delete this book"
+    end
     expect(page).to have_text("Dune Revised")
     capture("05-delete-book")
     click_link "Cancel"
     expect(page).to have_text("Dune Revised")
-    click_link "Delete this book"
+    within("tr", text: "Dune Revised") do
+      click_link "Delete this book"
+    end
     click_button "Confirm delete"
     expect(page).to have_text("Book was successfully destroyed.")
     click_link "Books", exact: true
@@ -95,6 +99,6 @@ RSpec.describe "Managing the collection in a browser",
     click_button "Destroy this user book"
     expect(page).to have_text("User book was successfully destroyed.")
     expect(User.count).to eq(1)
-    expect(Book.count).to eq(1)
+    expect(Book.exists?(book.id)).to be(true)
   end
 end

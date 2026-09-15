@@ -1,10 +1,10 @@
 require "rails_helper"
 
 RSpec.describe Book, type: :model do
-  it "loads five test seed books without duplicating or editing data" do
+  it "seeds five books and preserves existing records" do
     load Rails.root.join("db/seeds.rb")
-    titles = ["Lantern Bay", "The Quiet Observatory", "Paper Moons",
-      "A Map of Rain", "The Last Orchard"]
+    titles = [ "Lantern Bay", "The Quiet Observatory", "Paper Moons",
+      "A Map of Rain", "The Last Orchard" ]
     titles.each do |title|
       expect(Book.find_by(title: "Test: #{title}")).to be_present
     end

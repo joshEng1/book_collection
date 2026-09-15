@@ -19,6 +19,7 @@ RSpec.describe "Managing the collection in a browser", type: :system do
     visit books_path
     expect(page).to have_text("Books")
     click_link "New book"
+    expect(page).to have_selector("h1", text: "New book", exact_text: true)
     capture("02-new-book")
     fill_in "Title", with: "Dune"
     fill_in "Author", with: "Frank Herbert"
@@ -30,6 +31,7 @@ RSpec.describe "Managing the collection in a browser", type: :system do
     expect(page).to have_text("Book was successfully created.")
     capture("06-create-flash")
     click_link "Books", exact: true
+    expect(page).to have_selector("h1", text: "Books", exact_text: true)
     capture("01-books-index")
     click_link "Show this book"
     expect(page).to have_text("Frank Herbert")
@@ -71,6 +73,7 @@ RSpec.describe "Managing the collection in a browser", type: :system do
     click_button "Create User"
     expect(page).to have_text("User was successfully created.")
     click_link "Users", exact: true
+    expect(page).to have_selector("h1", text: "Users", exact_text: true)
     capture("08-users-index")
     click_link "Home"
     click_link "New user book"

@@ -96,6 +96,13 @@ jobs:
           bin/rails test
           bin/rails test:system
 
+      - name: Verify production startup with one database
+        env:
+          RAILS_ENV: production
+          SECRET_KEY_BASE_DUMMY: "1"
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/book_collection_test
+        run: bin/rails runner "ActiveRecord::Base.connection.select_value('SELECT 1')"
+
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
         if: failure()

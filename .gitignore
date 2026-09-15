@@ -49,3 +49,8 @@ Thumbs.db
 # Canvas documentation, test evidence, screenshots, and reports.
 /docs/
 /reports/
+
+# Exclude the starter's exported data and SSH setup artifacts.
+/db/data.yml
+/ssh.txt
+/ed25519contents.txt

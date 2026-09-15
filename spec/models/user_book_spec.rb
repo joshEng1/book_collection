@@ -21,7 +21,7 @@ RSpec.describe UserBook, type: :model do
     expect(book.users).to match_array([ user, second_user ])
   end
 
-  it "removes associations when a book is deleted while retaining users" do
+  it "deletes book associations while retaining users" do
     UserBook.create!(user: user, book: book)
     expect { book.destroy! }.to change(UserBook, :count).by(-1)
     expect(User.exists?(user.id)).to be(true)

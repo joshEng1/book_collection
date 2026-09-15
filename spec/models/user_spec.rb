@@ -7,7 +7,8 @@ RSpec.describe User, type: :model do
 
   it "reaches many books through user books" do
     user = User.create!(username: "reader_one")
-    books = [ Book.create!(title: "Dune"), Book.create!(title: "Foundation") ]
+    books = [ Book.create!(title: "Dune"),
+      Book.create!(title: "Foundation") ]
     books.each { |book| user.user_books.create!(book: book) }
     expect(user.books).to match_array(books)
   end

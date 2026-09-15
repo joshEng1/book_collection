@@ -25,11 +25,17 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
+        format.html do
+          redirect_to @user, notice: "User was successfully created."
+        end
+        format.json do
+          render :show, status: :created, location: @user
+        end
       else
         format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @user.errors, status: :unprocessable_content }
+        format.json do
+          render json: @user.errors, status: :unprocessable_content
+        end
       end
     end
   end
@@ -38,11 +44,16 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated.", status: :see_other }
+        format.html do
+          redirect_to @user, notice: "User was successfully updated.",
+            status: :see_other
+        end
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @user.errors, status: :unprocessable_content }
+        format.json do
+          render json: @user.errors, status: :unprocessable_content
+        end
       end
     end
   end
@@ -52,13 +63,18 @@ class UsersController < ApplicationController
     @user.destroy!
 
     respond_to do |format|
-      format.html { redirect_to users_path, notice: "User was successfully destroyed.", status: :see_other }
+      format.html do
+        redirect_to users_path,
+          notice: "User was successfully destroyed.",
+          status: :see_other
+      end
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # Use callbacks to share common setup or constraints between
+    # actions.
     def set_user
       @user = User.find(params.expect(:id))
     end

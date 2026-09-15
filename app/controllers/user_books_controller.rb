@@ -26,11 +26,20 @@ class UserBooksController < ApplicationController
 
     respond_to do |format|
       if @user_book.save
-        format.html { redirect_to root_path, notice: "User book was successfully created.", status: :see_other }
-        format.json { render :show, status: :created, location: @user_book }
+        format.html do
+          redirect_to root_path,
+            notice: "User book was successfully created.",
+            status: :see_other
+        end
+        format.json do
+          render :show, status: :created, location: @user_book
+        end
       else
         format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @user_book.errors, status: :unprocessable_content }
+        format.json do
+          render json: @user_book.errors,
+            status: :unprocessable_content
+        end
       end
     end
   end
@@ -39,11 +48,20 @@ class UserBooksController < ApplicationController
   def update
     respond_to do |format|
       if @user_book.update(user_book_params)
-        format.html { redirect_to root_path, notice: "User book was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @user_book }
+        format.html do
+          redirect_to root_path,
+            notice: "User book was successfully updated.",
+            status: :see_other
+        end
+        format.json do
+          render :show, status: :ok, location: @user_book
+        end
       else
         format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @user_book.errors, status: :unprocessable_content }
+        format.json do
+          render json: @user_book.errors,
+            status: :unprocessable_content
+        end
       end
     end
   end
@@ -53,7 +71,11 @@ class UserBooksController < ApplicationController
     @user_book.destroy!
 
     respond_to do |format|
-      format.html { redirect_to user_books_path, notice: "User book was successfully destroyed.", status: :see_other }
+      format.html do
+        redirect_to user_books_path,
+          notice: "User book was successfully destroyed.",
+          status: :see_other
+      end
       format.json { head :no_content }
     end
   end
@@ -64,7 +86,8 @@ class UserBooksController < ApplicationController
       @books = Book.order(:title)
     end
 
-    # Use callbacks to share common setup or constraints between actions.
+    # Use callbacks to share common setup or constraints between
+    # actions.
     def set_user_book
       @user_book = UserBook.find(params.expect(:id))
     end
